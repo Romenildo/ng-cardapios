@@ -4,4 +4,5 @@ export interface Cardapio {
     titulo: string;
     descricao: string;
     telefone: string;
+    destaque: boolean;
 }
