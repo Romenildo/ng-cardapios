@@ -1,49 +1,37 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Cardapio } from '../models/cardapio';
+import { CardapiosDTO } from '../models/cardapiosDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CardapioService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  cardapios:Cardapio[] = [
-    {
-      imagem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKaA0WCReMEpT45pGFAiimUBHwsOaeAwiYeQ&usqp=CAU",
-      titulo: "Cardapio 01",
-      descricao: "Lorem apsorum",
-      telefone: "(83)98737-0281",
-      destaque: true, 
-    },
-    {
-      imagem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTJG829yflNT4ZL18aGofHC6vxnE5V-KhDCA&usqp=CAU",
-      titulo: "Cardapio 02",
-      descricao: "Lorem apsorum",
-      telefone: "(83)98737-0281", 
-      destaque: false,
-    },
-    {
-      imagem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnbkUpwQJO9JeNsTFNEndAbeiOCORvS-PVrQ&usqp=CAU",
-      titulo: "Cardapio 03",
-      descricao: "Lorem apsorum",
-      telefone: "(83)98737-0281", 
-      destaque: true,
-    },
-    {
-      imagem: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFwXeWCZOmFWOCYkNAYLHdC9MzdEFy47-R3Q&usqp=CAU",
-      titulo: "Cardapio 04",
-      descricao: "Lorem apsorum",
-      telefone: "(83)98737-0281", 
-      destaque: true,
-    },
-  ];
 
-  getCardapios(){
-    return this.cardapios;
+  cardapios:Cardapio[] = [];
+
+  /**
+   * Observable é similar a uma promisse porem ele me inscreve em algo e fica monitorando toda vez que aquilo é modificado
+   * É OBRIGATORIO TER O SEU TIPO para melhorar o codigo limpo(Só se não souber mesmo)
+   * 
+   */
+ 
+  getCardapios(): Observable<CardapiosDTO> {
+    return this.http.get<CardapiosDTO>(`${environment.apiUrl}/cardapios`);
+  }
+
+  removerCardapio(id:number) {
+    return this.http.delete(`${environment.apiUrl}/cardapios/${id}`);
   }
 
   getCardapiosDestacados(){
+    let lista = [...this.cardapios]
     return this.cardapios.filter(f=>f.destaque)
   }
+  
 }

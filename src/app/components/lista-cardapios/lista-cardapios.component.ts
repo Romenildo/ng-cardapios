@@ -13,10 +13,14 @@ export class ListaCardapiosComponent implements OnInit {
  
   constructor( private cardapioService: CardapioService) { }
 
-  cardapios?:Cardapio[];
+  cardapios?:any[];
 
   ngOnInit(): void {
-    this.cardapios = this.cardapioService.getCardapiosDestacados();
+    this.cardapioService.getCardapios().subscribe(
+      resposta =>{
+        this.cardapios = resposta.cardapios;
+      }
+    )
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Cardapio } from 'src/app/models/cardapio';
+import { CardapioService } from 'src/app/services/cardapio.service';
 
 
 @Component({
@@ -10,9 +11,18 @@ import { Cardapio } from 'src/app/models/cardapio';
 export class CardapioComponent implements OnInit {
 
   @Input() cardapio?: Cardapio;
-  constructor() { }
+  constructor(private cardapioService: CardapioService) { }
 
   ngOnInit(): void {
   }
+
+  remover(cardapio?: Cardapio) {
+    if (this.cardapio != null) {
+      this.cardapioService.removerCardapio(this.cardapio.id);
+    }
+
+
+  }
+
 
 }
